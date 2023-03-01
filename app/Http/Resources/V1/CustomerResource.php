@@ -24,6 +24,7 @@ class CustomerResource extends JsonResource
             'city' => $this->city,
             'address' => $this->address,
             'postalCode' => $this->postal_code,
+            'invoices' => InvoiceResource::collection($this->whenLoaded('invoices')),
         ];
     }
 }

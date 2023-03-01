@@ -17,6 +17,9 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * Example:
+     * /api/v1/customers?type[eq]=i&includeInvoices=true
+     *
      * @param Request $request
      * @return CustomerCollection
      */
@@ -25,13 +28,15 @@ class CustomerController extends Controller
         $filter = new CustomerFilter();
         $queryItems = $filter->transform($request);
 
-        if (count($queryItems) == 0) {
-            return new CustomerCollection(Customer::paginate());
-        } else {
-            $customers = Customer::where($queryItems)->paginate();
+        $includeInvoices = $request->query('includeInvoices');
 
-            return new CustomerCollection($customers->appends($request->query()));
+        $customers = Customer::where($queryItems);
+
+        if ($includeInvoices) {
+            $customers = $customers->with('invoices');
         }
+
+        return new CustomerCollection($customers->paginate()->appends($request->query()));
     }
 
     /**
@@ -58,11 +63,21 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
+     * Example:
+     * /api/v1/customers/5?includeInvoices=true
+     *
      * @param Customer $customer
+     * @param Request $request
      * @return CustomerResource
      */
-    public function show(Customer $customer)
+    public function show(Customer $customer, Request $request): CustomerResource
     {
+        $includeInvoices = $request->query('includeInvoices');
+
+        if ($includeInvoices) {
+            return new CustomerResource($customer->loadMissing('invoices'));
+        }
+
         return new CustomerResource($customer);
     }
 
