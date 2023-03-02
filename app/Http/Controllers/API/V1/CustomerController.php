@@ -53,11 +53,12 @@ class CustomerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreCustomerRequest $request
-     * @return Response
+     * @return CustomerResource
+     *
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(StoreCustomerRequest $request): CustomerResource
     {
-        //
+        return new CustomerResource(Customer::create($request->all()));
     }
 
     /**

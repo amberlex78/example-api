@@ -13,6 +13,16 @@ class Customer extends Model
     const TYPE_INDIVIDUAL = 'I';
     const TYPE_BUSINESS = 'B';
 
+    protected $fillable = [
+        'name',
+        'type',
+        'email',
+        'country',
+        'city',
+        'address',
+        'postal_code',
+    ];
+
     public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class);
