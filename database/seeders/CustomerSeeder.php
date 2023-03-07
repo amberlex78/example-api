@@ -14,7 +14,7 @@ class CustomerSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Use magic methods
         Customer::factory(30)->hasInvoices(35)->create();

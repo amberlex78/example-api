@@ -12,10 +12,10 @@ class InvoiceCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    public function toArray(Request $request): array|JsonSerializable|Arrayable
     {
         return parent::toArray($request);
     }
